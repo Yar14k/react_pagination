@@ -1,7 +1,7 @@
 interface PaginationProps {
   total: number;
   perPage: number;
-  currentPage: number;
+  currentPage?: number;
   onPageChange: (page: number) => void;
 }
 
@@ -18,32 +18,44 @@ export const Pagination = ({
     <ul className="pagination">
       <li className={currentPage === 1 ? 'disabled' : ''}>
         <a
-           className="page-link"
-    data-cy="prevLink"
-    aria-disabled={currentPage === 1}
-    onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
+          className="page-link"
+          data-cy="prevLink"
+          aria-disabled={currentPage === 1}
+          onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
         >
           «
         </a>
       </li>
 
       {pages.map(page => (
-        <li key={page} className={`page-item ${page === currentPage ? 'active' : ''}`}>
-          <a href={`#${page}`}
-    className="page-link"
-    data-cy="pageLink"
-    onClick={() => onPageChange(page)}>{page}</a>
+        <li
+          key={page}
+          className={`page-item ${page === currentPage ? 'active' : ''}`}
+        >
+          <a
+            href={`#${page}`}
+            className="page-link"
+            data-cy="pageLink"
+            onClick={event => {
+              event.preventDefault();
+              if (page !== currentPage) {
+                onPageChange(page);
+              }
+            }}
+          >
+            {page}
+          </a>
         </li>
       ))}
 
       <li className={currentPage === totalPages ? 'disabled' : ''}>
         <a
           className="page-link"
-    data-cy="nextLink"
-    aria-disabled={currentPage === totalPages}
-    onClick={() =>
-      currentPage < totalPages && onPageChange(currentPage + 1)
-    }
+          data-cy="nextLink"
+          aria-disabled={currentPage === totalPages}
+          onClick={() =>
+            currentPage < totalPages && onPageChange(currentPage + 1)
+          }
         >
           »
         </a>
