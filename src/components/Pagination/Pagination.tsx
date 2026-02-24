@@ -8,7 +8,7 @@ interface PaginationProps {
 export const Pagination = ({
   total,
   perPage,
-  currentPage,
+  currentPage = 1,
   onPageChange,
 }: PaginationProps) => {
   const totalPages = Math.ceil(total / perPage);
